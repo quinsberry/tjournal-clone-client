@@ -19,7 +19,7 @@ export const Header: FunctionComponent = () => {
                 </IconButton>
                 <Link href='/'>
                     <a>
-                        <img height={35} className='mr-20' src='/static/img/logo.svg' alt='Logo' />
+                        <img height={42} className='mr-15 d-flex align-center' src='/static/img/logo.svg' alt='Logo' />
                     </a>
                 </Link>
 
