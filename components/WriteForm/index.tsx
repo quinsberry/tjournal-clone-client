@@ -13,12 +13,12 @@ interface WriteFormProps {
 export const WriteForm: FunctionComponent<WriteFormProps> = ({ title }) => {
     return (
         <div>
-            <Input classes={{ root: styles.titleField }} placeholder='Заголовок' defaultValue={title} />
+            <Input classes={{ root: styles.titleField }} placeholder='Header' defaultValue={title} />
             <div className={styles.editor}>
                 <Editor />
             </div>
             <Button variant='contained' color='primary'>
-                Опубликовать
+                Publish
             </Button>
         </div>
     );

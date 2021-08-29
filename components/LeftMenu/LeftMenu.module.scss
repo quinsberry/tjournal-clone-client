@@ -21,6 +21,11 @@
         font-weight: 400;
         box-shadow: none;
 
+        &:active {
+          box-shadow: none;
+          transform: none;
+        }
+
         span[class*='MuiButton-label'] {
           display: flex;
           align-items: center;

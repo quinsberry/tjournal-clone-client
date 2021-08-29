@@ -7,7 +7,8 @@ export const Editor: FunctionComponent<EditorProps> = () => {
     React.useEffect(() => {
         const editor = new EditorJS({
             holder: 'editor',
-            placeholder: 'Введите текст вашей статьи',
+            placeholder: 'Start writing your article',
+            autofocus: false,
         });
 
         return () => {
