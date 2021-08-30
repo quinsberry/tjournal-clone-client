@@ -19,11 +19,11 @@ export const MainLayout: FunctionComponent<MainLayoutProps> = ({
 }) => {
     return (
         <div className={clsx('wrapper', className)}>
-            {!hideMenu &&
-            <div className='leftSide'>
-                <LeftMenu />
-            </div>
-            }
+            {!hideMenu && (
+                <div className='leftSide'>
+                    <LeftMenu />
+                </div>
+            )}
             <div className={clsx('content', { 'content--full': contentFullWidth })}>{children}</div>
             {!hideComments && (
                 <div className='rightSide'>
