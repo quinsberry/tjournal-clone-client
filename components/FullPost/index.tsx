@@ -5,7 +5,8 @@ import MessageIcon from '@material-ui/icons/TextsmsOutlined';
 import UserAddIcon from '@material-ui/icons/PersonAddOutlined';
 import styles from './FullPost.module.scss';
 
-interface FullPostProps {}
+interface FullPostProps {
+}
 
 export const FullPost: FunctionComponent<FullPostProps> = () => {
     return (
@@ -50,7 +51,7 @@ export const FullPost: FunctionComponent<FullPostProps> = () => {
                             </Button>
                             <Button variant='contained'>
                                 <UserAddIcon />
-                                <b className='ml-10'>Подписаться</b>
+                                <b className='ml-10'>Subscribe</b>
                             </Button>
                         </div>
                     </div>

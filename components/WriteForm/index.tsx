@@ -4,7 +4,7 @@ import styles from './WriteForm.module.scss';
 import dynamic from 'next/dynamic';
 import { EditorProps } from '../Editor';
 
-const Editor = dynamic<EditorProps>(() => import('../Editor').then(m => m.Editor), { ssr: false });
+const Editor = dynamic<EditorProps>(() => import('../Editor').then(({ Editor }) => Editor), { ssr: false });
 
 interface WriteFormProps {
     title?: string;

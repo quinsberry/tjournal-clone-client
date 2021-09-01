@@ -4,32 +4,41 @@ import { Comment } from '../Comment';
 import { AddCommentForm } from '../AddCommentForm';
 import { data } from '../../data';
 
-interface PostCommentsProps {}
+enum ActiveTabs {
+    POPULAR = 'popular',
+    NEW = 'new',
+}
+
+interface PostCommentsProps {
+}
 
 export const PostComments: FunctionComponent<PostCommentsProps> = () => {
-    const [activeTab, setActiveTab] = React.useState(0);
-    const comments = data.comments[activeTab === 0 ? 'popular' : 'new'];
+    const [activeTab, setActiveTab] = React.useState<ActiveTabs>(ActiveTabs.POPULAR);
+    const comments = data.comments[activeTab];
 
+    const onTabChange = (_: React.ChangeEvent<{}>, value: ActiveTabs) => setActiveTab(value);
     return (
         <Paper elevation={0} className='mt-40 p-30'>
             <div className='container'>
                 <Typography variant='h6' className='mb-20'>
-                    42 комментария
+                    42 comments
                 </Typography>
-                <Tabs onChange={(_, newValue) => setActiveTab(newValue)} className='mt-20' value={activeTab}
-                    indicatorColor='primary' textColor='primary'
+                <Tabs
+                    onChange={onTabChange}
+                    className='mt-20'
+                    value={activeTab}
+                    indicatorColor='primary'
+                    textColor='primary'
                 >
-                    <Tab label='Популярные' />
-                    <Tab label='По порядку' />
+                    <Tab label={ActiveTabs.POPULAR} value={ActiveTabs.POPULAR} />
+                    <Tab label={ActiveTabs.NEW} value={ActiveTabs.NEW} />
                 </Tabs>
                 <Divider />
                 <AddCommentForm />
                 <div className='mb-20' />
-                {
-                    comments.map(obj => (
-                        <Comment key={obj.id} user={obj.user} text={obj.text} createdAt={obj.createdAt} />
-                    ))
-                }
+                {comments.map(obj => (
+                    <Comment key={obj.id} user={obj.user} text={obj.text} createdAt={obj.createdAt} />
+                ))}
             </div>
         </Paper>
     );
