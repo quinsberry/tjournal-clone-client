@@ -8,6 +8,7 @@ import {
     WhatshotOutlined as FireIcon,
 } from '@material-ui/icons';
 import styles from './LeftMenu.module.scss';
+import { useRouter } from 'next/router';
 
 const menu = [
     { text: 'Лента', icon: <FireIcon />, path: '/' },
@@ -19,16 +20,19 @@ const menu = [
 interface LeftMenuProps {}
 
 export const LeftMenu: FunctionComponent<LeftMenuProps> = () => {
+    const router = useRouter();
     return (
         <div className={styles.menu}>
             <ul>
                 {menu.map((obj) => (
                     <li key={obj.path}>
                         <Link href={obj.path}>
-                            <Button>
-                                {obj.icon}
-                                {obj.text}
-                            </Button>
+                            <a>
+                                <Button variant={router.asPath === obj.path ? 'contained' : undefined}>
+                                    {obj.icon}
+                                    {obj.text}
+                                </Button>
+                            </a>
                         </Link>
                     </li>
                 ))}
