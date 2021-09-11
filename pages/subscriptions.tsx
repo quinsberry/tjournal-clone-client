@@ -1,9 +1,9 @@
 import { MainLayout } from '../layouts/MainLayout';
 
-export default function FollowsPage() {
+export default function SubscriptionsPage() {
     return (
         <MainLayout>
-            <h1>Follows page</h1>
+            <h1>Subscriptions page</h1>
         </MainLayout>
     );
 }

@@ -2,6 +2,7 @@ import React, { FunctionComponent, MouseEvent } from 'react';
 import { IconButton, Menu, MenuItem, Typography } from '@material-ui/core';
 import MoreIcon from '@material-ui/icons/MoreHorizOutlined';
 import styles from './Comment.module.scss';
+import Image from 'next/image';
 
 interface CommentProps {
     user: {
