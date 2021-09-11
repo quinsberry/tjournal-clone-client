@@ -17,8 +17,6 @@ export const LoginForm: FunctionComponent<LoginFormProps> = ({ onOpenRegister })
 
     const onSubmit = (data: SubmitHandler<{ name: string; password: string }>) => console.log(data);
 
-    console.log(form.formState.errors);
-
     return (
         <div>
             <FormProvider {...form}>

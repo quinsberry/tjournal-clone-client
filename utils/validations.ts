@@ -5,9 +5,6 @@ export const LoginFormSchema = yup.object().shape({
     password: yup.string().min(6, 'Password should be at least 6 characters long').required('Password is required'),
 });
 
-export const RegisterFormSchema = yup
-    .object()
-    .shape({
-        fullname: yup.string().required('Name and Surname is required'),
-    })
-    .concat(LoginFormSchema);
+export const RegisterFormSchema = yup.object().shape({
+    fullname: yup.string().required('Name and Surname is required'),
+}).concat(LoginFormSchema);
