@@ -16,12 +16,14 @@ export const RegisterForm: FunctionComponent<LoginFormProps> = ({ onOpenRegister
         resolver: yupResolver(RegisterFormSchema),
     });
 
-    const onSubmit = (data: SubmitHandler<{ name: string; password: string }>) => console.log(data);
+    const onSubmit = (data: SubmitHandler<{ name: string; password: string }>) => {
+        console.log(data);
+    };
 
     return (
         <div>
             <FormProvider {...form}>
-                <FormField name='fullname' label='Name Surname' />
+                <FormField name='username' label='Username' />
                 <FormField name='email' label='Email' />
                 <FormField name='password' label='Password' />
                 <form onSubmit={form.handleSubmit(onSubmit)}>

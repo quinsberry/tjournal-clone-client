@@ -6,5 +6,5 @@ export const LoginFormSchema = yup.object().shape({
 });
 
 export const RegisterFormSchema = yup.object().shape({
-    fullname: yup.string().required('Name and Surname is required'),
+    username: yup.string().required('Username is required'),
 }).concat(LoginFormSchema);
