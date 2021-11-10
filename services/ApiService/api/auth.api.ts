@@ -1,12 +1,11 @@
 import { ApiService } from '../ApiService';
-import { User } from '../../../models/User';
-import { AxiosResponse } from 'axios';
+import { AuthUser } from '../../../models/User';
 
 export const AuthApi = {
     signup(data: { email: string, password: string; username: string; }) {
-        return ApiService.instance.post<User>('/v1/auth/signup', data);
+        return ApiService.instance.post<AuthUser>('/v1/auth/signup', data);
     },
-    login(data: { email: string, password: string }): Promise<AxiosResponse<User>> {
-        return ApiService.instance.post<User>('/v1/auth/signin', data);
+    login(data: { email: string, password: string }) {
+        return ApiService.instance.post<AuthUser>('/v1/auth/signin', data);
     },
 } as const;

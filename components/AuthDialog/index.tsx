@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { Dialog, DialogContent, DialogContentText, Typography } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { MainForm } from './forms/Main';
 import { LoginForm } from './forms/Login';
 import { RegisterForm } from './forms/Register';
 import Image from 'next/image';
 import styles from './AuthDialog.module.scss';
+import { MainAuthForm } from '../_common/MainAuthForm/MainAuthForm';
 
 interface AuthDialogProps {
     onClose: () => void;
@@ -47,15 +47,18 @@ export const AuthDialog: FunctionComponent<AuthDialogProps> = ({ onClose, visibl
                                     </p>
                                 )}
                             </Typography>
-                            {formType === FormType.MAIN && <MainForm onOpenLogin={() => setFormType(FormType.LOGIN)} />}
-                            {formType === FormType.LOGIN &&
-                            <LoginForm onOpenRegister={() => setFormType(FormType.REGISTER)} />}
-                            {formType === FormType.REGISTER &&
-                            <RegisterForm
-                                onOpenRegister={() => setFormType(FormType.REGISTER)}
-                                onOpenLogin={() => setFormType(FormType.LOGIN)}
-                            />
-                            }
+                            {formType === FormType.MAIN && (
+                                <MainAuthForm onOpenLogin={() => setFormType(FormType.LOGIN)} />
+                            )}
+                            {formType === FormType.LOGIN && (
+                                <LoginForm onOpenRegister={() => setFormType(FormType.REGISTER)} />
+                            )}
+                            {formType === FormType.REGISTER && (
+                                <RegisterForm
+                                    onOpenRegister={() => setFormType(FormType.REGISTER)}
+                                    onOpenLogin={() => setFormType(FormType.LOGIN)}
+                                />
+                            )}
                         </div>
                     </DialogContentText>
                 </DialogContent>

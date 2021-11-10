@@ -1,14 +1,14 @@
-import React, { FunctionComponent } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
 import { Button } from '@material-ui/core';
-import styles from '../AuthDialog.module.scss';
+import styles from './MainAuthForm.module.scss';
 
-interface MainFormProps {
+interface MainAuthFormProps {
     onOpenLogin: () => void;
 }
 
-export const MainForm: FunctionComponent<MainFormProps> = ({ onOpenLogin }) => {
+export const MainAuthForm: FunctionComponent<MainAuthFormProps> = ({ onOpenLogin }) => {
     return (
-        <>
+        <Fragment>
             <div>
                 <Button className="mb-15" variant="contained" fullWidth>
                     <svg fill="none" viewBox="0 0 24 24" id="v_vkontakte">
@@ -88,6 +88,6 @@ export const MainForm: FunctionComponent<MainFormProps> = ({ onOpenLogin }) => {
                     </svg>
                 </Button>
             </div>
-        </>
+        </Fragment>
     );
 };

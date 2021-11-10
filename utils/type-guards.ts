@@ -12,6 +12,10 @@ export function isOfType<T>(value: any, predicate: (value: any) => boolean): val
     return predicate(value);
 }
 
+export const assertUnreachable = (x: never): Error => {
+    throw new Error(`This code should not be reachable! Did not expect ${JSON.stringify(x, null, 4)}`);
+};
+
 export function validateFirstElementInList(list: any[], check: (element: any) => boolean): boolean {
     if (Array.isArray(list)) {
         if (list.length > 0) {

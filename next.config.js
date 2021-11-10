@@ -3,4 +3,7 @@ module.exports = {
     images: {
         domains: ['leonardo.osnova.io'],
     },
+    env: {
+        SERVER_URL: process.env.SERVER_URL,
+    }
 };

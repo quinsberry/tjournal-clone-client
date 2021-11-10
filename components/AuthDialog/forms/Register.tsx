@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { Button } from '@material-ui/core';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { RegisterFormSchema } from '../../../utils/validations';
-import { FormField } from '../../FormField';
+import { isUser } from '../../../models/User';
+import { TokenService } from '../../../services/TokenService/TokenService';
+import { resolveDependencies, storeGlobals } from '../../../store/GlobalsReference';
+import { RegisterAuthForm } from '../../_common/RegisterAuthForm/RegisterAuthForm';
 
 interface LoginFormProps {
     onOpenRegister: () => void;
@@ -11,38 +10,19 @@ interface LoginFormProps {
 }
 
 export const RegisterForm: FunctionComponent<LoginFormProps> = ({ onOpenRegister, onOpenLogin }) => {
-    const form = useForm({
-        mode: 'onChange',
-        resolver: yupResolver(RegisterFormSchema),
-    });
+    const apiService = resolveDependencies(storeGlobals).apiService;
 
-    const onSubmit = (data: SubmitHandler<{ name: string; password: string }>) => {
-        console.log(data);
+    const onSubmit = async (data: { email: string; password: string; username: string; }) => {
+        apiService.requests.auth.signup({
+            prediction: user => isUser(user),
+            data,
+        })
+            .then(response => {
+                console.log(response);
+                TokenService.setToken(response.token);
+            })
+            .catch(apiService.handleCaughtErrors);
     };
 
-    return (
-        <div>
-            <FormProvider {...form}>
-                <FormField name='username' label='Username' />
-                <FormField name='email' label='Email' />
-                <FormField name='password' label='Password' />
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <div className='d-flex align-center justify-between'>
-                        <Button
-                            disabled={!form.formState.isValid}
-                            onClick={onOpenRegister}
-                            type='submit'
-                            color='primary'
-                            variant='contained'
-                        >
-                            Sign up
-                        </Button>
-                        <Button onClick={onOpenLogin} color='primary' variant='text'>
-                            Sign in
-                        </Button>
-                    </div>
-                </form>
-            </FormProvider>
-        </div>
-    );
+    return <RegisterAuthForm onOpenRegister={onOpenRegister} onOpenLogin={onOpenLogin} onSubmit={onSubmit} />;
 };
