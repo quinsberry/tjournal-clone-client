@@ -2,6 +2,8 @@ import { CommunicatorService, Severity } from '../services/CommunicatorService/C
 import { computed, makeObservable, observable } from 'mobx';
 import { ApiService } from '../services/ApiService/ApiService';
 
+export type AppStoreHydrationData = any;
+
 export class AppStore {
 
     @observable communicatorService = new CommunicatorService(new Map<Severity, number>([
@@ -13,4 +15,8 @@ export class AppStore {
         makeObservable(this);
     }
 
+    hydrate(data: AppStoreHydrationData) {
+        console.log('hydration data: ', data);
+        // example of next + mobx hydration system (https://github.com/ivandotv/mobx-nextjs-root-store)
+    }
 }
