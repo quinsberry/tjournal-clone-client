@@ -8,8 +8,10 @@ import { Header } from 'components/Header';
 import { GlobalCommunicator } from '../components/GlobalCommunicator/GlobalCommunicator';
 import { StoreProvider } from '../store/StoreProvider';
 import 'styles/globals.scss';
+import { deserializeHydrationProps } from '../store/hydration';
 
 function App({ Component, pageProps }: AppProps) {
+    const [hydrationData, props] = deserializeHydrationProps(pageProps);
     return (
         <Fragment>
             <Head>
@@ -17,10 +19,10 @@ function App({ Component, pageProps }: AppProps) {
             </Head>
             <MuiThemeProvider theme={theme}>
                 <CssBaseline />
-                <StoreProvider hydrationData={pageProps.hydrationData} >
+                <StoreProvider hydrationData={hydrationData} >
                     <GlobalCommunicator />
                     <Header />
-                    <Component {...pageProps} />
+                    <Component {...props} />
                 </StoreProvider>
             </MuiThemeProvider>
         </Fragment>
