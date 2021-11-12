@@ -5,7 +5,7 @@ enum HydrationProperty {
 export function serializeHydrationProps(hydrationObject: Record<any, any>, otherProperties?: Record<any, any>) {
     return {
         [HydrationProperty.Name]: hydrationObject,
-        otherProperties,
+        ...otherProperties,
     };
 }
 
