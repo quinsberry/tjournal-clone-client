@@ -1,15 +1,5 @@
-export interface User {
-    id: number;
-    email: string;
-    username: string;
-    fullName: string;
-    createdAt: string;
-    updatedAt: string;
-    activated: boolean;
-}
-export interface AuthUser extends User {
-    token: string;
-}
+import { User } from '../types/User';
+
 
 export function isUser(entry: any): entry is User {
     return entry != null

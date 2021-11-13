@@ -1,9 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { UserApi } from './api/user.api';
-import { assertType } from '../../utils/type-guards';
+import { assertNonNull, assertType } from '../../utils/type-guards';
 import { AuthApi } from './api/auth.api';
 import { action, IComputedValue, makeObservable, observable } from 'mobx';
 import { CommunicatorService } from '../CommunicatorService/CommunicatorService';
+import { TokenService } from '../TokenService/TokenService';
+import * as next from 'next';
 
 interface ApiMethodConfig<Options> {
     prediction: (value: any) => boolean;
@@ -15,35 +17,52 @@ type Writeable<T extends { [x: string]: any }, K extends string> = {
 }
 
 type ApiErrorsHandlerTypes =
-    | typeof AuthApi
-    | typeof UserApi;
+    | ReturnType<typeof AuthApi>
+    | ReturnType<typeof UserApi>;
 
-interface ApiServiceConfig {}
+interface ApiServiceConfig {
+    instance?: AxiosInstance;
+}
 interface ApiServiceDependencies {
-    communicatorService: IComputedValue<CommunicatorService>;
+    communicatorService?: IComputedValue<CommunicatorService>;
 }
 export class ApiService {
-    private readonly communicatorService: IComputedValue<CommunicatorService>;
+    private readonly communicatorService: IComputedValue<CommunicatorService> | null;
 
-    static instance = this.getInstance();
+    readonly instance;
+    static instance = ApiService.getInstance();
 
-    @observable requests = {
-        auth: this.apiErrorsHandler(AuthApi),
-        user: this.apiErrorsHandler(UserApi),
-    };
+    @observable readonly requests = ApiService.requests;
+    static requests = this.getRequests(this.instance);
 
-    constructor({}: ApiServiceConfig, { communicatorService }: ApiServiceDependencies) {
+    constructor({ instance }: ApiServiceConfig, { communicatorService }: ApiServiceDependencies) {
         makeObservable(this);
 
-        this.communicatorService = communicatorService;
+        this.instance = instance ?? ApiService.instance;
+        this.requests = ApiService.getRequests(instance);
+        this.communicatorService = communicatorService ?? null;
     }
 
 
     @action.bound
     handleCaughtErrors(error: unknown) {
         if (axios.isAxiosError(error)) {
+            assertNonNull(this.communicatorService);
             this.communicatorService.get().openError(error.response?.data);
         }
+    }
+
+    static handleCaughtErrors(error: unknown) {
+        if (axios.isAxiosError(error)) {
+            console.error(error.response?.data);
+        } else {
+            console.error(error);
+        }
+    }
+
+    @action.bound
+    static context(ctx: Pick<next.NextPageContext, 'req'> | null = null) {
+        return new ApiService({ instance: this.getInstance(ctx) }, {});
     }
 
     /**
@@ -51,7 +70,7 @@ export class ApiService {
      * If difference was found it throws an error.
      */
     @action.bound
-    private apiErrorsHandler<A extends ApiErrorsHandlerTypes>(apiMethods: { [K in keyof A]: A[K] }) {
+    private static apiErrorsHandler<A extends ApiErrorsHandlerTypes>(apiMethods: { [K in keyof A]: A[K] }) {
         return (Object.entries(apiMethods) as [keyof A, A[keyof A]][])
             .reduce((acc, [action, fn]) => {
                 // @ts-ignore ts cannot match value of the object to its key here
@@ -68,12 +87,29 @@ export class ApiService {
     }
 
     @action.bound
-    private static getInstance() {
+    private static getRequests(instance: AxiosInstance = ApiService.instance) {
+        return {
+            auth: this.apiErrorsHandler(AuthApi(instance)),
+            user: this.apiErrorsHandler(UserApi(instance)),
+        };
+    }
+
+    @action.bound
+    private static getInstance(ctx: Pick<next.NextPageContext, 'req'> | null = null) {
         if (!process.env.SERVER_URL) {
             throw new Error('Server url has not found. Please check SERVER_URL env variable');
         }
+
+        const token = TokenService.getAuthentication(ctx);
         return axios.create({
             baseURL: process.env.SERVER_URL,
+            headers: {
+                ...(token ? {Authorization: `Bearer ${token}`} : {}),
+            }
         });
+    }
+
+    _hydrate(data: any) {
+        console.log('ApiStore hydrated with data: ', data);
     }
 }

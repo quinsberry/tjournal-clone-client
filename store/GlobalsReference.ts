@@ -81,7 +81,7 @@ export const storeGlobals = {
     // localeManager: (appStore: AppStore) => appStore.localeManager,
     communicatorService: (appStore: AppStore) => appStore.communicatorService,
     // siteMap: (appStore: AppStore) => appStore.siteMap,
-    // currentUserStore: (appStore: AppStore) => appStore.currentUserStore,
+    currentUserStore: (appStore: AppStore) => appStore.currentUserStore,
     apiService: (appStore: AppStore) => appStore.apiService,
 };
 

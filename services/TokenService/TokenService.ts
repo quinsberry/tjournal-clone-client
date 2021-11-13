@@ -2,10 +2,11 @@ import { setCookie, parseCookies, destroyCookie } from 'nookies';
 import * as next from 'next';
 
 export class TokenService {
-    private static readonly COOKIE_TOKEN_ID = 'tjournal-clone-cookie';
+    static readonly COOKIE_TOKEN_ID = 'tjournal-clone-cookie';
 
     public static getAuthentication(ctx: Pick<next.NextPageContext, 'req'> | null = null) {
-        return parseCookies(ctx);
+        const parsedCookie = parseCookies(ctx);
+        return parsedCookie[TokenService.COOKIE_TOKEN_ID];
     }
 
     public static setToken(token: string, ctx: Pick<next.NextPageContext, 'res'> | null = null): void {

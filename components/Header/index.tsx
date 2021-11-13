@@ -12,8 +12,11 @@ import {
 import styles from './Header.module.scss';
 import { AuthDialog } from '../AuthDialog';
 import Image from 'next/image';
+import { resolveDependencies, storeGlobals } from '../../store/GlobalsReference';
 
 export const Header: FunctionComponent = () => {
+    const currentUserStore = resolveDependencies(storeGlobals).currentUserStore;
+
     const [authVisible, setAuthVisible] = React.useState(false);
 
     const openAuthDialog = () => {
@@ -63,20 +66,24 @@ export const Header: FunctionComponent = () => {
                 <IconButton>
                     <NotificationIcon />
                 </IconButton>
-                {/*<Link href='/profile/1'>*/}
-                {/*    <a className='d-flex align-center'>*/}
-                {/*        <Avatar*/}
-                {/*            className={styles.avatar}*/}
-                {/*            alt='Remy Sharp'*/}
-                {/*            src='https://leonardo.osnova.io/5ffeac9a-a0e5-5be6-98af-659bfaabd2a6/-/scale_crop/108x108/-/format/webp/'*/}
-                {/*        />*/}
-                {/*        <ArrowBottom />*/}
-                {/*    </a>*/}
-                {/*</Link>*/}
-                <div className={styles.loginButton} onClick={openAuthDialog}>
-                    <UserIcon />
-                    Sign in
-                </div>
+                {currentUserStore.userInfo ? (
+                    <Link href='/profile/1'>
+                        <a className='d-flex align-center'>
+                            <Avatar
+                                className={styles.avatar}
+                                alt='Remy Sharp'
+                                src='https://leonardo.osnova.io/5ffeac9a-a0e5-5be6-98af-659bfaabd2a6/-/scale_crop/108x108/-/format/webp/'
+                            />
+                            <ArrowBottom />
+                        </a>
+                    </Link>
+                ) : (
+                    <div className={styles.loginButton} onClick={openAuthDialog}>
+                        <UserIcon />
+                        Sign in
+                    </div>
+                )}
+
                 <AuthDialog onClose={closeAuthDialog} visible={authVisible} />
             </div>
         </Paper>

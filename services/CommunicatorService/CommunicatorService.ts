@@ -100,4 +100,8 @@ export class CommunicatorService {
     setAutoHideDurationMap(autoHideDurationMap: Map<Severity, number>): void {
         this.autoHideDurationMap = autoHideDurationMap;
     }
+
+    _hydrate(data: any) {
+        console.log('CommunicatorService hydrated with data: ', data);
+    }
 }

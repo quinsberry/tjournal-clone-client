@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { isUser } from '../../../models/User';
 import { TokenService } from '../../../services/TokenService/TokenService';
 import { resolveDependencies, storeGlobals } from '../../../store/GlobalsReference';
 import { RegisterAuthForm } from '../../_common/RegisterAuthForm/RegisterAuthForm';
+import { isUser } from '../../../entities/User/utils/isUser';
 
 interface LoginFormProps {
     onOpenRegister: () => void;

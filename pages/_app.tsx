@@ -8,7 +8,7 @@ import { Header } from 'components/Header';
 import { GlobalCommunicator } from '../components/GlobalCommunicator/GlobalCommunicator';
 import { StoreProvider } from '../store/StoreProvider';
 import 'styles/globals.scss';
-import { deserializeHydrationProps } from '../store/hydration';
+import { deserializeHydrationProps } from '../lib/next-mobx-hydration';
 
 function App({ Component, pageProps }: AppProps) {
     const [hydrationData, props] = deserializeHydrationProps(pageProps);

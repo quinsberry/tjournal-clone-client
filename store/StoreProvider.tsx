@@ -3,6 +3,7 @@ import { AppStore, AppStoreHydrationData } from './AppStore';
 import { observable } from 'mobx';
 import { container } from 'tsyringe';
 import { enableStaticRendering } from 'mobx-react';
+import { hydrate } from '../lib/next-mobx-hydration';
 
 let rootStore = observable(new AppStore());
 container.register<AppStore>('AppStore', { useValue: rootStore });
@@ -11,20 +12,20 @@ container.register<AppStore>('AppStore', { useValue: rootStore });
 enableStaticRendering(typeof window === 'undefined');
 
 function initializeStore(initialData?: AppStoreHydrationData): AppStore {
-    const _store = rootStore;
+    const store = rootStore;
 
     // if there is data call the root store hydration method
     if (initialData) {
-        _store.hydrate(initialData);
+        hydrate({ store }, initialData);
     }
 
     // For server side rendering always create a new store
-    if (typeof window === 'undefined') return _store;
+    if (typeof window === 'undefined') return store;
 
     // Create the store once in the client
-    if (!rootStore) rootStore = _store;
+    if (!rootStore) rootStore = store;
 
-    return _store;
+    return store;
 }
 
 
