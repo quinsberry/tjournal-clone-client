@@ -23,9 +23,13 @@ type ApiErrorsHandlerTypes =
 interface ApiServiceConfig {
     instance?: AxiosInstance;
 }
+
 interface ApiServiceDependencies {
     communicatorService?: IComputedValue<CommunicatorService>;
 }
+
+export interface ApiServiceHydrationData {}
+
 export class ApiService {
     private readonly communicatorService: IComputedValue<CommunicatorService> | null;
 
@@ -109,7 +113,7 @@ export class ApiService {
         });
     }
 
-    _hydrate(data: any) {
+    _hydrate(data: ApiServiceHydrationData) {
         console.log('ApiStore hydrated with data: ', data);
     }
 }

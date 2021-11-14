@@ -11,6 +11,11 @@ interface CurrentUserStoreDependencies {
     apiService: IComputedValue<ApiService>;
 }
 
+
+export interface CurrentUserStoreHydrationData {
+    userInfo: User;
+}
+
 export class CurrentUserStore {
     private readonly apiService: IComputedValue<ApiService>;
 
@@ -68,7 +73,7 @@ export class CurrentUserStore {
         this.userInfo = userInfo;
     }
 
-    _hydrate(data: any) {
-        this.setUserInfo(data);
+    _hydrate({ userInfo }: CurrentUserStoreHydrationData) {
+        this.setUserInfo(userInfo);
     }
 }

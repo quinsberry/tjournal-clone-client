@@ -40,6 +40,8 @@ export class CommunicatorMessage {
     }
 }
 
+export interface CommunicatorServiceHydrationData {}
+
 export class CommunicatorService {
     @observable queue: CommunicatorMessage[] = [];
     @observable autoHideDurationMap: Map<Severity, number>;
@@ -101,7 +103,7 @@ export class CommunicatorService {
         this.autoHideDurationMap = autoHideDurationMap;
     }
 
-    _hydrate(data: any) {
+    _hydrate(data: CommunicatorServiceHydrationData) {
         console.log('CommunicatorService hydrated with data: ', data);
     }
 }

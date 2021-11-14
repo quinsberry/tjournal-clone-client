@@ -6,12 +6,10 @@ import { CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { theme } from 'theme';
 import { Header } from 'components/Header';
 import { GlobalCommunicator } from '../components/GlobalCommunicator/GlobalCommunicator';
-import { StoreProvider } from '../store/StoreProvider';
+import { withStore } from '../store/StoreProvider';
 import 'styles/globals.scss';
-import { deserializeHydrationProps } from '../lib/next-mobx-hydration';
 
 function App({ Component, pageProps }: AppProps) {
-    const [hydrationData, props] = deserializeHydrationProps(pageProps);
     return (
         <Fragment>
             <Head>
@@ -19,14 +17,12 @@ function App({ Component, pageProps }: AppProps) {
             </Head>
             <MuiThemeProvider theme={theme}>
                 <CssBaseline />
-                <StoreProvider hydrationData={hydrationData} >
-                    <GlobalCommunicator />
-                    <Header />
-                    <Component {...props} />
-                </StoreProvider>
+                <GlobalCommunicator />
+                <Header />
+                <Component {...pageProps} />
             </MuiThemeProvider>
         </Fragment>
     );
 }
 
-export default App;
+export default withStore(App);

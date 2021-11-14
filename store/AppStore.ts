@@ -3,7 +3,8 @@ import { computed, makeObservable, observable } from 'mobx';
 import { ApiService } from '../services/ApiService/ApiService';
 import { CurrentUserStore } from '../entities/User/stores/CurrentUserStore';
 
-export type AppStoreHydrationData = any;
+export interface AppStoreHydrationData {
+}
 
 export class AppStore {
 

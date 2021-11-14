@@ -2,8 +2,7 @@ import { Post } from '../components/Post';
 import { MainLayout } from '../layouts/MainLayout';
 import { GetServerSideProps } from 'next';
 import { ApiService } from '../services/ApiService/ApiService';
-import { AppStore } from '../store/AppStore';
-import { serializeHydrationProps } from '../lib/next-mobx-hydration';
+import { AppHydration } from '../store/AppStoreHydration';
 
 export default function Home() {
     return (
@@ -22,14 +21,16 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     return ApiService.context(ctx).requests.user.fetchCurrentUser({
         prediction: () => true,
         data: {},
-    }).then((response) => {
-        const hydrationData = {
+    }).then((user) => {
+        const hydration = AppHydration.serializeHydrationProps({
             store: 'AppStore data',
-            currentUserStore: response,
-        };
+            currentUserStore: {
+                userInfo: user,
+            },
+        });
         return {
             props: {
-                ...serializeHydrationProps(hydrationData),
+                ...hydration,
                 data: 'other page data',
             },
         };
